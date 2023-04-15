@@ -6,8 +6,10 @@ const ActiveLink = ({ to, children }) => {
     <div>
       <NavLink
         to={to}
-        className={(isActive) =>
-          isActive ? "text-red-600" : "text-white font-semibold text-lg mr-6"
+        className={({ isActive }) =>
+          isActive
+            ? "text-purple-300 font-semibold text-lg mr-6"
+            : "text-white font-semibold text-lg mr-6"
         }>
         {children}
       </NavLink>
