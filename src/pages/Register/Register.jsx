@@ -17,7 +17,8 @@ const Register = () => {
       <Form
         title="Register"
         authSystemName="Register"
-        ExtraRegisterComponent={<ExtraRegisterComponent />}
+        ExtraRegisterComponent={<ExtraRegisterComponent /> }
+        isRegistration={true}
       />
     </div>
   );

@@ -54,6 +54,7 @@ const Login = () => {
       title="Login"
       authSystemName="Login"
       ExtraLoginComponent={<ExtraLoginComponent />}
+      isRegistration={false}
     />
   );
 };
