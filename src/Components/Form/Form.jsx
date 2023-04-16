@@ -1,17 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import app from "../.././firebase/firebase.config";
 import {
   faSignInAlt,
   faEye,
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProviders";
+
 const Form = ({
   title,
   authSystemName,
@@ -19,9 +15,12 @@ const Form = ({
   ExtraRegisterComponent,
   isRegistration,
 }) => {
+  const { createUser, setUser, verifyEmail, logInUser } =
+    useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
   const handlePasswordToggle = () => {
     setShowPassword(!showPassword);
   };
@@ -29,29 +28,39 @@ const Form = ({
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-  const auth = getAuth(app);
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
     if (isRegistration) {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((result) => {
-          const user = result.user;
-          navigate("/login");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      try {
+        const result = await createUser(email, password);
+        const registeredUser = await result.user;
+        setUser(registeredUser);
+        try {
+          const verifyResult = await verifyEmail(registeredUser);
+          console.log("email send successfully", verifyResult);
+        } catch (verifyError) {
+          console.log(verifyError);
+        }
+        navigate("/login");
+      } catch (err) {
+        console.log("error in createUser", createUser);
+      }
     } else {
-      signInWithEmailAndPassword(auth, email, password)
-        .then((result) => {
-          const user = result.user;
+      try {
+        const loginResult = await logInUser(email, password);
+        const loggedUser = loginResult.user;
+        if (loggedUser.emailVerified) {
+          setUser(loggedUser);
           navigate("/user");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        } else {
+          console.log("please verify your email");
+        }
+      } catch (loginError) {
+        console.log(loginError);
+      }
     }
   };
 

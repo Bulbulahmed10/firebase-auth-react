@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import ActiveLink from "./ActiveLink";
+import { AuthContext } from "../../providers/AuthProviders";
 
 const Header = () => {
+  // const {user} = useContext(AuthContext)
+  // console.log(user);
   return (
-    <div className="w-full bg-purple-700 fixed">
-      <header className="flex justify-between items-center  py-4 px-8  left-0 right-0 max-w-[1280px] m-auto">
+    <div className="w-full left-0  top-0 right-0 bg-purple-700 fixed">
+      <header className="flex justify-between items-center  py-4 px-8   max-w-[1280px] m-auto">
         <div className="flex items-center">
           <ActiveLink to="/register"> Register </ActiveLink>
           <ActiveLink to="/login"> Login </ActiveLink>

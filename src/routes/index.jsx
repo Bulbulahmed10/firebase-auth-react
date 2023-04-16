@@ -3,7 +3,7 @@ import App from ".././layout/App";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import User from "../pages/User/User";
-import Header from "../Components/Header/Header";
+import Home from "../pages/Home/Home";
 
 const router = createBrowserRouter([
   {
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Header />,
+        element: <Home />,
       },
       {
         path: "login",
