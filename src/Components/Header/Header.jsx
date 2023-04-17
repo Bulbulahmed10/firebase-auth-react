@@ -54,11 +54,21 @@ const Header = () => {
 
   return (
     <div className="w-full  left-0  top-0 right-0 bg-purple-700 px-6 fixed">
-      <header className="flex h-[84px] justify-between items-center  max-w-[1280px] m-auto">
+      <header
+        className="flex h-[84px] 
+           justify-between
+         items-center  max-w-[1280px] m-auto">
         <div className="flex items-center">
-          <ActiveLink to="/register"> Register </ActiveLink>
-          <ActiveLink to="/login"> Login </ActiveLink>
+          {user === null && (
+            <>
+              <ActiveLink to="/register"> Register </ActiveLink>
+              <ActiveLink to="/login"> Login </ActiveLink>
+            </>
+          )}
+
+          <ActiveLink to="/resource"> Resource </ActiveLink>
         </div>
+
         {user?.emailVerified && (
           <div className="relative inline-block" ref={dropdownRef}>
             <button
@@ -99,9 +109,6 @@ const Header = () => {
               <ul
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="dropdownDefaultButton">
-                <li className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">
-                  Dashboard
-                </li>
                 <li
                   onClick={deleteAccountHandler}
                   className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">
